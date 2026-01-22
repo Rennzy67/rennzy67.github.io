@@ -6,20 +6,15 @@
     <title>Dashboard Network Monitoring</title>
     
     <style>
-        /* BAGIAN CSS - MENGATUR TAMPILAN */
         body {
-            font-family: sans-serif;
-            background-color: #1a1a2e; /* Warna gelap ala hacker */
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #1a1a2e;
             color: white;
             margin: 0;
             padding: 20px;
         }
 
-        h1 {
-            text-align: center;
-            border-bottom: 2px solid #0f3460;
-            padding-bottom: 10px;
-        }
+        h1 { text-align: center; border-bottom: 2px solid #0f3460; padding-bottom: 10px; color: ##ffffff; }
 
         .container {
             display: flex;
@@ -29,51 +24,37 @@
             margin-top: 30px;
         }
 
-        /* ERROR 1: Kode CSS untuk kotak server (card) belum ditutup kurung kurawal '}' 
-           dan background color-nya salah ketik */
         .server-card {
-            background-colr: #16213e; /* Typo di sini */
+            background-color: #16213e; 
             border: 1px solid #0f3460;
             border-radius: 10px;
             padding: 20px;
             width: 250px;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-        
-        /* Kurung tutup } hilang di sini */
-
-        .icon {
-            font-size: 50px;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        /* Indikator Status */
+        .icon { font-size: 50px; margin-bottom: 10px; }
+
         .status-box {
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: bold;
             margin-top: 15px;
             display: inline-block;
+            transition: all 0.5s ease;
         }
 
-        .online {
-            background-color: #2ecc71; /* Hijau */
-            color: black;
-        }
+        /* Warna Status */
+        .online { background-color: #2ecc71; color: #1a1a2e; }
+        .offline { background-color: #e74c3c; color: white; }
+        .maintenance { background-color: #f1c40f; color: black; }
 
-        .offline {
-            background-color: #e74c3c; /* Merah */
-            color: white;
-        }
-
-        .maintenance {
-            background-color: #f1c40f; /* Kuning */
-            color: black;
-        }
+        .button-container { text-align: center; margin-top: 40px; }
 
         button {
-            margin-top: 20px;
-            padding: 10px 20px;
+            padding: 12px 30px;
             cursor: pointer;
             background-color: #e94560;
             border: none;
@@ -82,9 +63,7 @@
             border-radius: 5px;
         }
         
-        button:hover {
-            background-color: #c0392b;
-        }
+        button:hover { background-color: #c0392b; }
     </style>
 </head>
 <body>
@@ -98,20 +77,49 @@
             <h3>Mikrotik Gateway</h3>
             <p>IP: 192.168.1.1</p>
             <p>Uptime: 24 Jam</p>
-            <div class="status-box online">STATUS: ONLINE</div>
+            <div id="status-1" class="status-box online">STATUS: ONLINE</div>
         </div>
 
         <div class="server-card">
             <div class="icon">💻</div>
             <h3>Server CBT Ujian</h3>
             <p>IP: 192.168.10.200</p>
-            
-            <div class="status-box online">STATUS: OFFLINE (RUSAK)</div>
+            <p>Uptime: 5 Jam</p>
+            <div id="status-2" class="status-box offline">STATUS: OFFLINE</div>
+        </div>
+        
+        <div class="server-card">
+            <div class="icon">🗄️</div>
+            <h3>NAS File Server</h3>
+            <p>IP: 192.168.50.5</p>
+            <p>Uptime : 1 Jam</p>
+            <div id="status-3" class="status-box maintenance">STATUS: MAINTENANCE</div>
         </div>
 
-        </div> <div style="text-align: center; margin-top: 40px;">
-        <button onclick="alert('Memperbarui Status Server...')">REFRESH STATUS
+    </div> 
+
+    <div class="button-container">
+        <button onclick="fixNetwork()">REFRESH STATUS</button>
     </div>
+
+    <script>
+        function fixNetwork() {
+            alert('Menghubungkan ulang semua server...');
+            
+            const allStatus = document.querySelectorAll('.status-box');
+
+            allStatus.forEach(status => {
+               
+                status.innerText = "STATUS: ONLINE";
+                               
+                status.classList.remove('offline', 'maintenance');
+               
+                status.classList.add('online');
+            });
+
+            console.log('Semua server sekarang online.');
+        }
+    </script>
 
 </body>
 </html>
